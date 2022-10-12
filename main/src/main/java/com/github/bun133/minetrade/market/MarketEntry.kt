@@ -26,13 +26,18 @@ class MarketEntry(val item: ItemStack, var baseValue: Int) {
         }
     }
 
-    fun sell(wallet: Wallet, fromInventory: PlayerInventory): Boolean {
+    /**
+     * Sell the item
+     * @return (whether the item is sold, the amount of money)
+     */
+    fun sell(wallet: Wallet, fromInventory: PlayerInventory): Pair<Boolean, Int> {
         if (fromInventory.containsAtLeast(item, item.amount)) {
-            wallet.add(sellPrice(wallet))
+            val price = sellPrice(wallet)
+            wallet.add(price)
             fromInventory.removeItem(item)
-            return true
+            return Pair(true, price)
         }
 
-        return false
+        return Pair(false, 0)
     }
 }

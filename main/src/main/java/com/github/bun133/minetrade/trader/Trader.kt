@@ -82,7 +82,7 @@ class TraderEventHelper(val plugin: Minetrade) : Listener {
                         if (entry == null) {
                             event.player.sendMessage(text("このアイテムは売れません", NamedTextColor.RED))
                         } else {
-                            val (b, i) = onSell(event.player, wallet, market, entry)
+                            val (b, i) = onSell(event.player, wallet, entry)
                             if (b) {
                                 // Success
                                 event.player.sendMessage(text("${i}で売却しました", NamedTextColor.GREEN))
@@ -98,6 +98,11 @@ class TraderEventHelper(val plugin: Minetrade) : Listener {
     }
 }
 
-private fun onSell(player: Player, wallet: Wallet, market: Market, entry: MarketEntry): Pair<Boolean, Int> {
+/**
+ * Sell the item
+ * @return (whether the item is sold, the amount of money)
+ */
+private fun onSell(player: Player, wallet: Wallet, entry: MarketEntry): Pair<Boolean, Int> {
     // TODO Sell Item
+    return entry.sell(wallet, player.inventory)
 }
