@@ -28,7 +28,7 @@ fun isTraderSpawnItem(item: org.bukkit.inventory.ItemStack): Boolean {
     )
 }
 
-class TraderSpawnItemEventHelper(val plugin: Minetrade) : Listener {
+class TraderSpawnItemEventHelper(private val plugin: Minetrade) : Listener {
     companion object {
         val KEY = NamespacedKey("minetrade", "trader_spawn_item")
     }
@@ -42,11 +42,16 @@ class TraderSpawnItemEventHelper(val plugin: Minetrade) : Listener {
         if (event.action == Action.RIGHT_CLICK_BLOCK) {
             val item = event.item
             if (item != null && isTraderSpawnItem(item)) {
+                if (plugin.market == null) {
+                    event.player.sendMessage(text("ゲームが開始されていません", NamedTextColor.RED))
+                    event.isCancelled = true
+                    return
+                }
                 val block = event.clickedBlock
                 if (block != null) {
                     val loc = block.location
                     loc.y += 1
-                    spawnTraderAtLocation(loc, plugin.market, plugin)
+                    spawnTraderAtLocation(loc, plugin.market!!, plugin,"商人")
                     event.isCancelled = true
                     event.player.sendMessage(text("商人をスポーンさせました", NamedTextColor.GREEN))
                 }

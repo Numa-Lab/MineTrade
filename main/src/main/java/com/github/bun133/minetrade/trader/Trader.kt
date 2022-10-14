@@ -26,7 +26,7 @@ private class TraderMeta(owningPlugin: Plugin) : MetadataValueAdapter(owningPlug
     }
 }
 
-fun spawnTraderAtLocation(location: Location, market: Market, plugin: Plugin) {
+fun spawnTraderAtLocation(location: Location, market: Market, plugin: Plugin, name: String) {
     val villager: Villager = location.world.spawnEntity(location, org.bukkit.entity.EntityType.VILLAGER) as Villager
     villager.setAI(false)
     villager.isSilent = true
@@ -35,6 +35,7 @@ fun spawnTraderAtLocation(location: Location, market: Market, plugin: Plugin) {
     villager.setAdult()
     villager.profession = Villager.Profession.NONE
     villager.villagerType = Villager.Type.PLAINS
+    villager.customName(text(name))
 
     villager.setMetadata(TraderMeta.KEY, TraderMeta(plugin))    // Mark as Trader
 

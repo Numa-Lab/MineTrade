@@ -4,11 +4,11 @@ import com.github.bun133.minetrade.config.MineTradeEntryConfig
 import org.bukkit.inventory.ItemStack
 
 class Market(entries: List<MineTradeEntryConfig>) {
+    private val entries = mutableListOf<MineTradeEntryConfig>()
     init {
         initializeWith(entries)
     }
 
-    private val entries = mutableListOf<MineTradeEntryConfig>()
 
     fun initializeWith(e: List<MineTradeEntryConfig>) {
         entries.addAll(e)   // TODO Merge

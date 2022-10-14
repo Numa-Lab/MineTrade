@@ -11,7 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class Minetrade : JavaPlugin() {
     lateinit var config: MineTradeConfig
-    lateinit var market: Market // TODO Init With Config
+    var market: Market? = null
+        private set
     val walletManager = WalletManager()
 
     override fun onEnable() {
@@ -27,8 +28,16 @@ class Minetrade : JavaPlugin() {
         }
     }
 
+    override fun onDisable() {
+        config.saveConfigIfPresent()
+    }
+
     private fun initHelperClasses() {
         TraderEventHelper(this)
         TraderSpawnItemEventHelper(this)
+    }
+
+    fun initMarket() {
+        market = Market(config.tradings)// TODO Init With Config
     }
 }
