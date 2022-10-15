@@ -4,7 +4,7 @@ import org.bukkit.entity.Player
 import org.bukkit.scoreboard.Team
 
 class WalletManager {
-    private val wallets = mutableMapOf<WalletOwner, Wallet>()
+    val wallets = mutableMapOf<WalletOwner, Wallet>()
 
     fun getWallet(p: Player): Wallet {
         val w = getExistingWalletFor(p)

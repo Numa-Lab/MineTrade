@@ -9,7 +9,7 @@ class MarketListCommand(config: MineTradeConfig) : Command("list") {
         usage {
             selectionArgument("","list")
             executes {
-                val str = config.tradings.mapIndexed { i, it -> "[${i + 1}${it.prettyPrint()}]" }.joinToString("\n")
+                val str = config.tradings.mapIndexed { i, it -> "[${i + 1}]${it.prettyPrint()}" }.joinToString("\n")
                 success("========== 取引一覧 ==========")
                 success(str)
             }

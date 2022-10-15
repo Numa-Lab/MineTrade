@@ -1,5 +1,7 @@
 package com.github.bun133.minetrade.market
 
+import net.kyori.adventure.text.Component
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.scoreboard.Team
 
@@ -29,6 +31,22 @@ class WalletOwner(val player: Player?, val team: Team?) {
             other.isPlayerWallet() && this.player!!.uniqueId == other.player!!.uniqueId
         } else {
             other.isTeamWallet() && this.team!!.name == other.team!!.name
+        }
+    }
+
+    fun sendMessage(comp: Component) {
+        if (isPlayerWallet()) {
+            player!!.sendMessage(comp)
+        } else {
+            team!!.entries.mapNotNull { Bukkit.getPlayer(it) }.forEach { it.sendMessage(comp) }
+        }
+    }
+
+    fun name(): Component {
+        return if (isPlayerWallet()) {
+            player!!.displayName()
+        } else {
+            team!!.displayName()
         }
     }
 }

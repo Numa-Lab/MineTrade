@@ -12,7 +12,8 @@ class MinetradeCommand(val config: MineTradeConfig) : Command("minetrade") {
             StartCommand(),
             ConfigCommandBuilder(config).build(),
             MarketEditCommand(config),
-            MarketEggCommand()
+            MarketEggCommand(),
+            WalletCommand()
         )
     }
 }

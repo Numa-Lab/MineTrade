@@ -35,6 +35,7 @@ class Minetrade : JavaPlugin() {
     private fun initHelperClasses() {
         TraderEventHelper(this)
         TraderSpawnItemEventHelper(this)
+        DigHelper(this)
     }
 
     fun initMarket() {
