@@ -9,6 +9,11 @@ import org.bukkit.plugin.Plugin
 
 class MineTradeConfig(plugin: Plugin) : BaseConfig(plugin) {
     val tradings = mutableListOf<MineTradeEntryConfig>()
+
+    fun addTrading(en: MineTradeEntryConfig) {
+        tradings.removeAll { it.block.value() == en.block.value() && it.block.value() != Material.AIR } // Remove if same block
+        tradings.add(en)
+    }
 }
 
 class MineTradeEntryConfig {

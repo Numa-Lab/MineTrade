@@ -39,6 +39,6 @@ class Minetrade : JavaPlugin() {
     }
 
     fun initMarket() {
-        market = Market(config.tradings)// TODO Init With Config
+        market = Market(config)
     }
 }

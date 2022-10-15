@@ -22,12 +22,12 @@ class MarketEntry(
     val item: ItemValue,
     var baseValue: IntegerValue
 ) {
-    private fun buyPrice(wallet: Wallet): Int {
+    fun buyPrice(wallet: Wallet): Int {
         // TODO
         return baseValue.value()
     }
 
-    private fun sellPrice(wallet: Wallet): Int {
+    fun sellPrice(wallet: Wallet): Int {
         // TODO
         return baseValue.value()
     }

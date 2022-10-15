@@ -30,7 +30,7 @@ class MarketAddCommand(config: MineTradeConfig) : Command("add") {
 
                 val amount = typedArgs[2] as Int
                 val price = typedArgs[3] as Int
-                config.tradings.add(fromItemStack(blockMaterial, ItemStack(itemMaterial, amount), price))
+                config.addTrading(fromItemStack(blockMaterial, ItemStack(itemMaterial, amount), price))
                 success("商品を追加しました")
             }
         }
