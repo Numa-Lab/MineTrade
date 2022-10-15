@@ -32,6 +32,7 @@ fun spawnTraderAtLocation(location: Location, market: Market, plugin: Plugin, na
     villager.isSilent = true
     villager.isCollidable = false
     villager.canPickupItems = false
+    villager.isInvulnerable = true  // クリエイティブモードのみで殺せるようにする
     villager.setAdult()
     villager.profession = Villager.Profession.NONE
     villager.villagerType = Villager.Type.PLAINS
