@@ -22,21 +22,21 @@ class MarketEntry(
     val item: ItemValue,
     var baseValue: IntegerValue
 ) {
-    fun buyPrice(wallet: Wallet): Int {
+    fun buyPrice(): Int {
         // TODO
         return baseValue.value()
     }
 
-    fun sellPrice(wallet: Wallet): Int {
+    fun sellPrice(): Int {
         // TODO
         return baseValue.value()
     }
 
-    fun canBuy(wallet: Wallet) = wallet.has(buyPrice(wallet))
+    fun canBuy(wallet: Wallet) = wallet.has(buyPrice())
 
     fun buy(wallet: Wallet, toAddInventory: PlayerInventory) {
         if (canBuy(wallet)) {
-            wallet.remove(buyPrice(wallet))
+            wallet.remove(buyPrice())
             toAddInventory.addOrDrop(item.value())
             if (wallet.owner.isPlayerWallet()) {
                 wallet.owner.sendMessage(
@@ -68,7 +68,7 @@ class MarketEntry(
     fun sell(wallet: Wallet, fromInventory: PlayerInventory): Pair<Boolean, Int> {
         val item = item.value()
         if (fromInventory.containsAtLeast(item, item.amount)) {
-            val price = sellPrice(wallet)
+            val price = sellPrice()
             wallet.add(price)
             fromInventory.removeItem(item)
             return Pair(true, price)

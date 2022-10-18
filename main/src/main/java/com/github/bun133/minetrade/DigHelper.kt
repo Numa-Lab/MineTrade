@@ -23,7 +23,7 @@ class DigHelper(val plugin: Minetrade) : Listener {
                 e.isDropItems = false
             }else{
                 // Cant buy this entry because of lack of money
-                e.player.sendMessage(text("お金が足りません(${entry.buyPrice(wallet) - wallet.balance}不足しています)", NamedTextColor.RED))
+                e.player.sendMessage(text("お金が足りません(${entry.buyPrice() - wallet.balance}不足しています)", NamedTextColor.RED))
                 e.isCancelled = true
             }
         }

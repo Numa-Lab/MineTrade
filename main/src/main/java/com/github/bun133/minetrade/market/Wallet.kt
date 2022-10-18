@@ -49,6 +49,14 @@ class WalletOwner(val player: Player?, val team: Team?) {
             team!!.displayName()
         }
     }
+
+    fun stringName(): String {
+        return if (isPlayerWallet()) {
+            player!!.name
+        } else {
+            team!!.name
+        }
+    }
 }
 
 class Wallet(val owner: WalletOwner) {
