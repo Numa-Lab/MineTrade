@@ -16,7 +16,7 @@ class Minetrade : JavaPlugin() {
     var market: Market? = null
         private set
     val walletManager = WalletManager()
-    lateinit var scoreBoardManager : ScoreBoardManager
+    lateinit var scoreBoardManager: ScoreBoardManager
 
     override fun onEnable() {
         // Plugin startup logic
@@ -29,7 +29,7 @@ class Minetrade : JavaPlugin() {
         initHelperClasses()
 
         flyLib {
-            command(MinetradeCommand(config,scoreBoardManager))
+            command(MinetradeCommand(config, scoreBoardManager))
         }
     }
 
@@ -47,7 +47,8 @@ class Minetrade : JavaPlugin() {
         }, 0, 1)
     }
 
-    fun initMarket() {
+    fun init() {
         market = Market(config)
+        scoreBoardManager.resetScoreBoard()
     }
 }

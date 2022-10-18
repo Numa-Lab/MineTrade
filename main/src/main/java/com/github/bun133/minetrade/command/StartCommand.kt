@@ -11,7 +11,7 @@ class StartCommand : Command("start") {
             executes {
                 // TODO Start Minetrade
                 val p = this.plugin as Minetrade
-                p.initMarket()
+                p.init()
                 success("ゲームを開始しました")
             }
         }
