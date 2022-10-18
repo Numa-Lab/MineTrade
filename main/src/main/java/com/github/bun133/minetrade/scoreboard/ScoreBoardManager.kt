@@ -81,7 +81,7 @@ class MarketScoreBoard(private val plugin: Minetrade) {
 
     companion object {
         private fun genObjective() =
-            Bukkit.getScoreboardManager().mainScoreboard.registerNewObjective("market", "dummy", text("市場価格"))
+            Bukkit.getScoreboardManager().mainScoreboard.registerNewObjective("market", "dummy", text("取引価格"))
 
         private fun getObjective() =
             Bukkit.getScoreboardManager().mainScoreboard.getObjective("market") ?: genObjective()
