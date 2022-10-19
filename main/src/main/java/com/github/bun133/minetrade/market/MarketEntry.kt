@@ -26,12 +26,12 @@ class MarketEntry(
     val item: ItemValue,
     var baseValue: IntegerValue,
     val isRealMode: BooleanValue,
-    intervalTick:Int,
-    plugin:JavaPlugin
+    intervalTick: Int,
+    plugin: JavaPlugin
 ) {
     private var buyCount = 0
     private var sellCount = 0
-    private val rate = MarketPriceHelper(intervalTick, DoubleRange(0.5, 1.5),plugin)
+    private val rate = MarketPriceHelper(intervalTick, DoubleRange(0.5, 1.5), plugin)
 
     fun buyPrice(): Int {
         return if (isRealMode.value()) {
@@ -51,15 +51,26 @@ class MarketEntry(
 
     fun canBuy(wallet: Wallet) = wallet.has(buyPrice())
 
-    fun buy(wallet: Wallet, toAddInventory: PlayerInventory) {
+    fun buy(
+        wallet: Wallet,
+        toAddInventory: PlayerInventory,
+        muchAsPossible: Boolean
+    ): Pair<Boolean, Int> {
         if (canBuy(wallet)) {
-            wallet.remove(buyPrice())
-            toAddInventory.addOrDrop(item.value())
+            val price = buyPrice()
+            val amount = if (muchAsPossible) {
+                (wallet.balance / price)
+            } else {
+                1
+            }
+            wallet.remove(price * amount)
+            val addedItem = item.value().clone().apply { this.amount = this.amount * amount }
+            toAddInventory.addOrDrop(addedItem)
             buyCount++  // Count up buyCount
             if (wallet.owner.isPlayerWallet()) {
                 wallet.owner.sendMessage(
                     text(
-                        "${item.value().amount}個の${item.value().type}を購入しました",
+                        "${addedItem.amount}個の${item.value().type}を購入しました",
                         NamedTextColor.GREEN
                     )
                 )
@@ -68,13 +79,14 @@ class MarketEntry(
                     wallet.owner.sendMessage(
                         text("[${(toAddInventory.holder!! as Player).name}]", NamedTextColor.YELLOW) +
                                 text(
-                                    " ${item.value().amount}個の${item.value().type}を購入しました",
+                                    " ${addedItem.amount}個の${item.value().type}を購入しました",
                                     NamedTextColor.GREEN
                                 )
 
                     )
                 }
             }
+            return Pair(true, price * amount)
         } else {
             // Should not happen
             wallet.owner.sendMessage(
@@ -83,6 +95,7 @@ class MarketEntry(
                     NamedTextColor.RED
                 )
             )
+            return Pair(false, 0)
         }
     }
 

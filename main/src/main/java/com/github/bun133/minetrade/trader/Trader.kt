@@ -14,6 +14,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.metadata.MetadataValueAdapter
 import org.bukkit.plugin.Plugin
+import org.bukkit.plugin.java.JavaPlugin
 
 private class TraderMeta(owningPlugin: Plugin) : MetadataValueAdapter(owningPlugin) {
     override fun value() = true
@@ -78,7 +79,7 @@ class TraderEventHelper(val plugin: Minetrade) : Listener {
                 } else {
                     val wallet = plugin.walletManager.getWallet(event.player)
                     if (handedItem.type.isEmpty) {
-                        // TODO Open Market GUI
+                        openBuyGUI(event.player, wallet, market.entries().toList(), plugin)
                     } else {
                         val entry: MarketEntry? = market.getEntryFor(handedItem)
                         if (entry == null) {
@@ -98,6 +99,19 @@ class TraderEventHelper(val plugin: Minetrade) : Listener {
             }
         }
     }
+}
+
+private fun openBuyGUI(player: Player, wallet: Wallet, entries: List<MarketEntry>, plugin: JavaPlugin) {
+    TraderBuyGUI.genGUI(player, wallet, entries, plugin).open(player)
+}
+
+/**
+ * Buy item from market
+ * @param muchAsPossible If true, buy as much as possible
+ * @return (whether the item is bought, the amount of money consumed)
+ */
+fun onBuy(player: Player, wallet: Wallet, entry: MarketEntry, muchAsPossible: Boolean): Pair<Boolean, Int> {
+    return entry.buy(wallet, player.inventory, muchAsPossible)
 }
 
 /**
