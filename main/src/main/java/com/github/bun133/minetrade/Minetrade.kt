@@ -48,7 +48,7 @@ class Minetrade : JavaPlugin() {
     }
 
     fun init() {
-        market = Market(config)
+        market = Market(config,this)
         scoreBoardManager.resetScoreBoard()
     }
 }

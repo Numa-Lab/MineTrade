@@ -1,6 +1,7 @@
 package com.github.bun133.minetrade.config
 
 import net.kunmc.lab.configlib.BaseConfig
+import net.kunmc.lab.configlib.value.BooleanValue
 import net.kunmc.lab.configlib.value.IntegerValue
 import net.kunmc.lab.configlib.value.MaterialValue
 import org.bukkit.Material
@@ -9,6 +10,11 @@ import org.bukkit.plugin.Plugin
 
 class MineTradeConfig(plugin: Plugin) : BaseConfig(plugin) {
     val tradings = mutableListOf<MineTradeEntryConfig>()
+
+    /**
+     * 金額の計算を、売買数に基づいて計算するか、固定値からランダムで変動する値で計算するか
+     */
+    val isRealMode = BooleanValue(true)
 
     fun addTrading(en: MineTradeEntryConfig) {
         tradings.removeAll { it.block.value() == en.block.value() && it.block.value() != Material.AIR } // Remove if same block

@@ -9,7 +9,8 @@ class MarketEditCommand(config: MineTradeConfig) : Command("market") {
         children(
             MarketAddCommand(config),
             MarketRemoveCommand(config),
-            MarketListCommand(config)
+            MarketListCommand(config),
+            MarketPriceConfigCommand(config)
         )
     }
 }
