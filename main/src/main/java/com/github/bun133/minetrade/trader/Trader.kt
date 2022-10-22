@@ -79,7 +79,8 @@ class TraderEventHelper(val plugin: Minetrade) : Listener {
                 } else {
                     val wallet = plugin.walletManager.getWallet(event.player)
                     if (handedItem.type.isEmpty) {
-                        openBuyGUI(event.player, wallet, market.entries().toList(), plugin)
+//                        openBuyGUI(event.player, wallet, market.entries().toList(), plugin)
+                        event.player.sendMessage(text("売りたいアイテムを手にもってクリックしてください", NamedTextColor.RED))
                     } else {
                         val entry: MarketEntry? = market.getEntryFor(handedItem)
                         if (entry == null) {
@@ -101,6 +102,8 @@ class TraderEventHelper(val plugin: Minetrade) : Listener {
     }
 }
 
+
+// Not Used
 private fun openBuyGUI(player: Player, wallet: Wallet, entries: List<MarketEntry>, plugin: JavaPlugin) {
     TraderBuyGUI.genGUI(player, wallet, entries, plugin).open(player)
 }
