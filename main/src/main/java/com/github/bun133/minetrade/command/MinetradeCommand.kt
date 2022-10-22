@@ -1,21 +1,45 @@
 package com.github.bun133.minetrade.command
 
+import com.github.bun133.bukkitfly.stack.addOrDrop
+import com.github.bun133.minetrade.Minetrade
 import com.github.bun133.minetrade.config.MineTradeConfig
 import com.github.bun133.minetrade.scoreboard.ScoreBoardManager
+import com.github.bun133.minetrade.trader.generateTraderSpawnItem
 import dev.kotx.flylib.command.Command
 import net.kunmc.lab.configlib.ConfigCommandBuilder
 
-class MinetradeCommand(val config: MineTradeConfig,val scoreBoardManager: ScoreBoardManager) : Command("minetrade") {
+class MinetradeCommand(val config: MineTradeConfig, scoreBoardManager: ScoreBoardManager) : Command("minetrade") {
     init {
         description("Minetradeのコマンドです")
         children(
-            ItemSetCommand(),
-            StartCommand(),
             ConfigCommandBuilder(config).build(),
             MarketEditCommand(config),
-            MarketEggCommand(),
             WalletCommand(),
             ScoreBoardSelectCommand(scoreBoardManager)
         )
+
+        usage {
+            selectionArgument("operation", "egg","start")
+            executes {
+                when(typedArgs[0] as String){
+                    "egg" -> {
+                        if (this.player != null) {
+                            player!!.inventory.addOrDrop(generateTraderSpawnItem())
+                            success("商人のスポーンアイテムを取得しました")
+                        } else {
+                            fail("このコマンドはプレイヤーからのみ実行できます")
+                        }
+                    }
+                    "start" -> {
+                        val p = this.plugin as Minetrade
+                        p.init()
+                        success("ゲームを開始しました")
+                    }
+                    else -> {
+                        fail("その操作は存在しません")
+                    }
+                }
+            }
+        }
     }
 }

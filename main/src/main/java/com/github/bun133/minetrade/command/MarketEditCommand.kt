@@ -9,8 +9,23 @@ class MarketEditCommand(config: MineTradeConfig) : Command("market") {
         children(
             MarketAddCommand(config),
             MarketRemoveCommand(config),
-            MarketListCommand(config),
             MarketPriceConfigCommand(config)
         )
+
+        usage{
+            selectionArgument("operation","list")
+            executes{
+                when(typedArgs[0] as String){
+                    "list" -> {
+                        val str = config.tradings.mapIndexed { i, it -> "[${i + 1}]${it.prettyPrint()}" }.joinToString("\n")
+                        success("========== 取引一覧 ==========")
+                        success(str)
+                    }
+                    else -> {
+                        fail("その操作は存在しません")
+                    }
+                }
+            }
+        }
     }
 }
