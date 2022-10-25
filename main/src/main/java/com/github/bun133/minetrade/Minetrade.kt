@@ -29,7 +29,7 @@ class Minetrade : JavaPlugin() {
         initHelperClasses()
 
         flyLib {
-            command(MinetradeCommand(config, scoreBoardManager))
+            command(MinetradeCommand(config, scoreBoardManager,walletManager))
         }
     }
 

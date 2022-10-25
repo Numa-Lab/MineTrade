@@ -35,10 +35,8 @@ class WalletOwner(val player: Player?, val team: Team?) {
     }
 
     fun sendMessage(comp: Component) {
-        if (isPlayerWallet()) {
-            player!!.sendMessage(comp)
-        } else {
-            team!!.entries.mapNotNull { Bukkit.getPlayer(it) }.forEach { it.sendMessage(comp) }
+        players().forEach {
+            it.sendMessage(comp)
         }
     }
 
@@ -55,6 +53,14 @@ class WalletOwner(val player: Player?, val team: Team?) {
             player!!.name
         } else {
             team!!.name
+        }
+    }
+
+    fun players(): List<Player> {
+        return if (isPlayerWallet()) {
+            listOf(player!!)
+        } else {
+            team!!.entries.mapNotNull { Bukkit.getPlayer(it) }
         }
     }
 }

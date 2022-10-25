@@ -3,19 +3,21 @@ package com.github.bun133.minetrade.command
 import com.github.bun133.bukkitfly.stack.addOrDrop
 import com.github.bun133.minetrade.Minetrade
 import com.github.bun133.minetrade.config.MineTradeConfig
+import com.github.bun133.minetrade.market.WalletManager
 import com.github.bun133.minetrade.scoreboard.ScoreBoardManager
 import com.github.bun133.minetrade.trader.generateTraderSpawnItem
 import dev.kotx.flylib.command.Command
 import net.kunmc.lab.configlib.ConfigCommandBuilder
 
-class MinetradeCommand(val config: MineTradeConfig, scoreBoardManager: ScoreBoardManager) : Command("minetrade") {
+class MinetradeCommand(val config: MineTradeConfig, scoreBoardManager: ScoreBoardManager,walletManager: WalletManager) : Command("minetrade") {
     init {
         description("Minetradeのコマンドです")
         children(
             ConfigCommandBuilder(config).build(),
             MarketEditCommand(config),
             WalletCommand(),
-            ScoreBoardSelectCommand(scoreBoardManager)
+            ScoreBoardSelectCommand(scoreBoardManager),
+            TeamRegisterCommand(walletManager)
         )
 
         usage {

@@ -8,7 +8,7 @@ import org.bukkit.scoreboard.DisplaySlot
 class ScoreBoardSelectCommand(val scoreBoardManager: ScoreBoardManager) : Command("scoreboard") {
     init {
         usage {
-            selectionArgument("ScoreBoardType", "Wallet", "Market")
+            selectionArgument("ScoreBoardType", "PlayerWallet", "TeamWallet", "Market")
             selectionArgument("DisplaySlot", *(DisplaySlot.values().map { it.name }.toTypedArray()))
             executes {
                 val type = typedArgs[0] as String
@@ -16,7 +16,8 @@ class ScoreBoardSelectCommand(val scoreBoardManager: ScoreBoardManager) : Comman
                 try {
                     val slot = DisplaySlot.valueOf(slotString)
                     when (type) {
-                        "Wallet" -> scoreBoardManager.showScoreBoard(ScoreBoardSelector.Wallet(slot))
+                        "PlayerWallet" -> scoreBoardManager.showScoreBoard(ScoreBoardSelector.PlayerWallet(slot))
+                        "TeamWallet" -> scoreBoardManager.showScoreBoard(ScoreBoardSelector.TeamWallet(slot))
                         "Market" -> scoreBoardManager.showScoreBoard(ScoreBoardSelector.Market(slot))
                         else -> {
                             fail("スコアボードのタイプが不正です")
