@@ -5,6 +5,7 @@ import com.github.bun133.bukkitfly.component.text
 import com.github.bun133.minetrade.Minetrade
 import com.github.bun133.minetrade.market.MarketPriceHelperTimer
 import com.github.bun133.minetrade.market.WalletManager
+import com.github.bun133.minetrade.translate.Translator
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.scoreboard.DisplaySlot
@@ -16,10 +17,10 @@ sealed class ScoreBoardSelector {
     data class Market(val displaySlot: DisplaySlot) : ScoreBoardSelector()
 }
 
-class ScoreBoardManager(plugin: Minetrade) {
+class ScoreBoardManager(plugin: Minetrade,translator: Translator) {
     private val playerWalletScoreBoard = PlayerWalletScoreBoard(plugin.walletManager)
     private val teamWalletScoreBoard = TeamWalletScoreBoard(plugin.walletManager)
-    private val marketScoreBoard = MarketScoreBoard(plugin)
+    private val marketScoreBoard = MarketScoreBoard(plugin,translator)
 
     fun updateScoreBoard() {
         playerWalletScoreBoard.update()
@@ -133,11 +134,12 @@ class TeamWalletScoreBoard(private val walletManager: WalletManager) {
     }
 }
 
-class MarketScoreBoard(private val plugin: Minetrade) {
+class MarketScoreBoard(private val plugin: Minetrade, private val translator: Translator) {
     private var slot: DisplaySlot? = null
     fun update() {
         plugin.market?.entries()?.forEach { e ->
-            val score = getObjective().getScore(e.item.material.value().name)
+            val displayName = translator.getTranslated(e.item.material.value().translationKey) ?: e.item.material.value().name  // ここで翻訳する
+            val score = getObjective().getScore(displayName)
             score.score = e.buyPrice()
         }
 
