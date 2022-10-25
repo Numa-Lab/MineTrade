@@ -21,5 +21,7 @@ class WalletCommand : Command("wallet") {
                 }
             }
         }
+
+        children(WalletSetCommand())
     }
 }

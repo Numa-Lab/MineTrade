@@ -57,6 +57,12 @@ class WalletManager {
     }
 
     private fun getExistingWalletFor(p: Player): Wallet? {
+        val joiningTeam = Bukkit.getScoreboardManager().mainScoreboard.getEntryTeam(p.name)
+        if (joiningTeam != null) {
+            val w = getExistingWalletFor(joiningTeam)
+            if (w != null) return w
+        }
+
         return wallets.entries.firstOrNull {
             it.key.isOwningWallet(p)
         }?.value

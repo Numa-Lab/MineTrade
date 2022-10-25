@@ -3,6 +3,7 @@ package com.github.bun133.minetrade.market
 import com.github.bun133.bukkitfly.component.plus
 import com.github.bun133.bukkitfly.component.text
 import com.github.bun133.bukkitfly.stack.addOrDrop
+import com.github.bun133.minetrade.Minetrade
 import com.github.bun133.minetrade.config.ItemValue
 import net.kunmc.lab.configlib.value.BooleanValue
 import net.kunmc.lab.configlib.value.IntegerValue
@@ -12,7 +13,6 @@ import org.apache.commons.lang.math.DoubleRange
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.PlayerInventory
-import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * MarketEntry is a class that represents an entry of market.
@@ -26,7 +26,7 @@ class MarketEntry(
     val item: ItemValue,
     var baseValue: IntegerValue,
     val isRealMode: BooleanValue,
-    plugin: JavaPlugin
+    private val plugin: Minetrade
 ) {
     private var buyCount = 0
     private var sellCount = 0
@@ -66,24 +66,23 @@ class MarketEntry(
             val addedItem = item.value().clone().apply { this.amount = this.amount * amount }
             toAddInventory.addOrDrop(addedItem)
             buyCount++  // Count up buyCount
+
             if (wallet.owner.isPlayerWallet()) {
                 wallet.owner.sendMessage(
                     text(
-                        "${addedItem.amount}個の${item.value().type}を購入しました",
+                        "${addedItem.amount}個の${plugin.translator.getTranslated(item.material.value().translationKey)}を購入しました",
                         NamedTextColor.GREEN
                     )
                 )
             } else {
-                if (toAddInventory.holder is Player) {
-                    wallet.owner.sendMessage(
-                        text("[${(toAddInventory.holder!! as Player).name}]", NamedTextColor.YELLOW) +
-                                text(
-                                    " ${addedItem.amount}個の${item.value().type}を購入しました",
-                                    NamedTextColor.GREEN
-                                )
+                wallet.owner.sendMessage(
+                    text("[${(toAddInventory.holder!! as Player).name}]", NamedTextColor.YELLOW) +
+                            text(
+                                " ${addedItem.amount}個の${plugin.translator.getTranslated(item.material.value().translationKey)}を購入しました",
+                                NamedTextColor.GREEN
+                            )
 
-                    )
-                }
+                )
             }
             return Pair(true, price * amount)
         } else {

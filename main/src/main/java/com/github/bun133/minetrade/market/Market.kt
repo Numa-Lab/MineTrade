@@ -1,12 +1,12 @@
 package com.github.bun133.minetrade.market
 
+import com.github.bun133.minetrade.Minetrade
 import com.github.bun133.minetrade.config.MineTradeConfig
 import com.github.bun133.minetrade.config.MineTradeEntryConfig
 import org.bukkit.block.Block
 import org.bukkit.inventory.ItemStack
-import org.bukkit.plugin.java.JavaPlugin
 
-class Market(private val conf: MineTradeConfig,val plugin: JavaPlugin) {
+class Market(private val conf: MineTradeConfig,val plugin: Minetrade) {
     private val map = mutableMapOf<MineTradeEntryConfig, MarketEntry>()
     private fun configEntries() = conf.tradings
     fun entries() = map.values
