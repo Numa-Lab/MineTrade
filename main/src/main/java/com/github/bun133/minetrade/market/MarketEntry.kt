@@ -26,12 +26,11 @@ class MarketEntry(
     val item: ItemValue,
     var baseValue: IntegerValue,
     val isRealMode: BooleanValue,
-    intervalTick: Int,
     plugin: JavaPlugin
 ) {
     private var buyCount = 0
     private var sellCount = 0
-    private val rate = MarketPriceHelper(intervalTick, DoubleRange(0.5, 1.5), plugin)
+    private val rate = MarketPriceHelper(DoubleRange(0.5, 1.5), plugin)
 
     fun buyPrice(): Int {
         return if (isRealMode.value()) {

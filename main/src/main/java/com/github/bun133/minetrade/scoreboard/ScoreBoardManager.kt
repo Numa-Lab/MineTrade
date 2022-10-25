@@ -1,10 +1,14 @@
 package com.github.bun133.minetrade.scoreboard
 
+import com.github.bun133.bukkitfly.component.plus
 import com.github.bun133.bukkitfly.component.text
 import com.github.bun133.minetrade.Minetrade
+import com.github.bun133.minetrade.market.MarketPriceHelperTimer
 import com.github.bun133.minetrade.market.WalletManager
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.scoreboard.DisplaySlot
+import kotlin.math.roundToInt
 
 sealed class ScoreBoardSelector {
     data class PlayerWallet(val displaySlot: DisplaySlot) : ScoreBoardSelector()
@@ -136,6 +140,15 @@ class MarketScoreBoard(private val plugin: Minetrade) {
             val score = getObjective().getScore(e.item.material.value().name)
             score.score = e.buyPrice()
         }
+
+        // Update Title
+        getObjective().displayName(
+            text("市場価格 ") + text(
+                "更新まで:${
+                    (MarketPriceHelperTimer.getInstance(plugin).remainTick() / 20.0).roundToInt()
+                }秒", NamedTextColor.GRAY
+            )
+        )
     }
 
     fun reset() {
