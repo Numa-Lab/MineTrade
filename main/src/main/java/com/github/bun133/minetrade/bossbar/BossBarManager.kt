@@ -10,6 +10,7 @@ import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.title.Title
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
+import org.bukkit.Sound
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.boss.BossBar
@@ -97,5 +98,7 @@ fun onFinish(owner: WalletOwner, wallet: Wallet, plugin: Minetrade) {
                 text(owner.stringName(), NamedTextColor.BLUE) + text("の勝利!", NamedTextColor.WHITE)
             )
         )
+
+        it.playSound(it.location, Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f)
     }
 }
