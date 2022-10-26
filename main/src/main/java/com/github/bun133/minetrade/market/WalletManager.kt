@@ -7,6 +7,12 @@ import org.bukkit.scoreboard.Team
 class WalletManager {
     val wallets = mutableMapOf<WalletOwner, Wallet>()
 
+    fun reset() {
+        wallets.forEach { (_, wallet) ->
+            wallet.set(0)   // Set to 0
+        }
+    }
+
     /**
      * @param toMarge whether to marge the wallet if the wallets owned by team player are already exists.
      */

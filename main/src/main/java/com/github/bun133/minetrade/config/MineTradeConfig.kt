@@ -15,6 +15,7 @@ class MineTradeConfig(plugin: Plugin) : BaseConfig(plugin) {
      * 金額の計算を、売買数に基づいて計算するか、固定値からランダムで変動する値で計算するか
      */
     val isRealMode = BooleanValue(false)
+    val targetMoney = IntegerValue(1000)
 
     fun addTrading(en: MineTradeEntryConfig) {
         tradings.removeAll { it.block.value() == en.block.value() && it.block.value() != Material.AIR } // Remove if same block

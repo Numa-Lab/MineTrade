@@ -1,5 +1,6 @@
 package com.github.bun133.minetrade
 
+import com.github.bun133.minetrade.bossbar.BossBarManager
 import com.github.bun133.minetrade.command.MinetradeCommand
 import com.github.bun133.minetrade.config.MineTradeConfig
 import com.github.bun133.minetrade.market.Market
@@ -19,6 +20,7 @@ class Minetrade : JavaPlugin() {
     val walletManager = WalletManager()
     lateinit var scoreBoardManager: ScoreBoardManager
     lateinit var translator: Translator
+    lateinit var bossBarManager: BossBarManager
 
     override fun onEnable() {
         // start Translator
@@ -28,7 +30,8 @@ class Minetrade : JavaPlugin() {
         config.saveConfigIfAbsent()
         config.loadConfig()
 
-        scoreBoardManager = ScoreBoardManager(this,translator)
+        bossBarManager = BossBarManager(this, config.targetMoney)
+        scoreBoardManager = ScoreBoardManager(this, translator)
 
         initHelperClasses()
 
@@ -38,6 +41,7 @@ class Minetrade : JavaPlugin() {
     }
 
     override fun onDisable() {
+        bossBarManager.disable()
         config.saveConfigIfPresent()
     }
 
@@ -54,5 +58,7 @@ class Minetrade : JavaPlugin() {
     fun init() {
         market = Market(config, this)
         scoreBoardManager.resetScoreBoard()
+        bossBarManager.enable()
+        walletManager.reset()
     }
 }
