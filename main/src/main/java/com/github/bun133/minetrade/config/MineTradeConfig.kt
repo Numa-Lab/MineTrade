@@ -11,10 +11,6 @@ import org.bukkit.plugin.Plugin
 class MineTradeConfig(plugin: Plugin) : BaseConfig(plugin) {
     val tradings = mutableListOf<MineTradeEntryConfig>()
 
-    /**
-     * 金額の計算を、売買数に基づいて計算するか、固定値からランダムで変動する値で計算するか
-     */
-    val isRealMode = BooleanValue(false)
     val targetMoney = IntegerValue(1000)
 
     fun addTrading(en: MineTradeEntryConfig) {

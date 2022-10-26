@@ -6,7 +6,7 @@
 
     <groupId>com.github.bun133</groupId>
     <artifactId>minetrade</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>MineTrade</name>

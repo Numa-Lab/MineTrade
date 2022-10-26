@@ -14,19 +14,19 @@ class Market(private val conf: MineTradeConfig, val plugin: Minetrade) {
     init {
         // Init All Trading Entries
         configEntries().forEach {
-            map[it] = MarketEntry(it.block, it.item, it.basePrice, conf.isRealMode, plugin)
+            map[it] = MarketEntry(it.block, it.item, it.basePrice, plugin)
         }
     }
 
     fun getEntryFor(block: Block): MarketEntry? {
         val e = configEntries().firstOrNull { it.block.value() == block.type } ?: return null
-        return map.getOrPut(e) { MarketEntry(e.block, e.item, e.basePrice, conf.isRealMode, plugin) }
+        return map.getOrPut(e) { MarketEntry(e.block, e.item, e.basePrice, plugin) }
     }
 
     fun getEntryFor(item: ItemStack): MarketEntry? {
         val e =
             configEntries().firstOrNull { it.item.value().type == item.type && it.item.value().amount <= item.amount }
                 ?: return null
-        return map.getOrPut(e) { MarketEntry(e.block, e.item, e.basePrice, conf.isRealMode, plugin) }
+        return map.getOrPut(e) { MarketEntry(e.block, e.item, e.basePrice, plugin) }
     }
 }

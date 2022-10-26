@@ -5,7 +5,6 @@ import com.github.bun133.bukkitfly.component.text
 import com.github.bun133.bukkitfly.stack.addOrDrop
 import com.github.bun133.minetrade.Minetrade
 import com.github.bun133.minetrade.config.ItemValue
-import net.kunmc.lab.configlib.value.BooleanValue
 import net.kunmc.lab.configlib.value.IntegerValue
 import net.kunmc.lab.configlib.value.MaterialValue
 import net.kyori.adventure.text.format.NamedTextColor
@@ -19,13 +18,11 @@ import org.bukkit.inventory.PlayerInventory
  * @param item ItemStack that represents the item.
  * @param baseValue base price of the item.
  * @param blockType Material that represents the block of [item]. if [item] is not a block, this should be AIR. when this field is set, player who owns wallet cant break the block, instead that, the player can buy the [item] for [sellPrice].
- * @param isRealMode if the real value of [isRealMode] is true, the [sellPrice] and [buyPrice] will be calculated by [baseValue],[buyCount] and [sellCount]. if the real value of [isRealMode] is false, the [sellPrice] and [buyPrice] will be constant value * random.
  */
 class MarketEntry(
     val blockType: MaterialValue = MaterialValue(Material.AIR),
     val item: ItemValue,
     var baseValue: IntegerValue,
-    val isRealMode: BooleanValue,
     private val plugin: Minetrade
 ) {
     private var buyCount = 0
@@ -33,19 +30,12 @@ class MarketEntry(
     private val rate = MarketPriceHelper(DoubleRange(0.5, 1.5), plugin)
 
     fun buyPrice(): Int {
-        return if (isRealMode.value()) {
-            baseValue.value()   // TODO: Add calculation
-        } else {
-            (baseValue.value() * rate.nowValue()).toInt()
-        }
+        return (baseValue.value() * rate.nowValue()).toInt()
+
     }
 
     fun sellPrice(): Int {
-        return if (isRealMode.value()) {
-            baseValue.value()   // TODO: Add calculation
-        } else {
-            (baseValue.value() * rate.nowValue()).toInt()
-        }
+        return (baseValue.value() * rate.nowValue()).toInt()
     }
 
     fun canBuy(wallet: Wallet) = wallet.has(buyPrice())
