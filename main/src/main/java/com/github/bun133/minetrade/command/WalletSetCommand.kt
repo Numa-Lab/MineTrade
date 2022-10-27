@@ -13,21 +13,25 @@ class WalletSetCommand : Command("set") {
             integerArgument("amount")
             executes {
                 val plugin = this.plugin as Minetrade
-                val plist= typedArgs[0] as? List<*>
-                if(plist==null){
+                val plist = typedArgs[0] as? List<*>
+                if (plist == null) {
                     sender.sendMessage(text("プレイヤーが見つかりませんでした"))
                     return@executes
                 }
-                val p = plist.firstOrNull() as? Player
-                if (p == null) {
-                    sender.sendMessage("プレイヤーが見つかりませんでした")
+
+                val playerList = plist.filterIsInstance<Player>()
+                if (playerList.isEmpty()) {
+                    sender.sendMessage(text("プレイヤーが見つかりませんでした"))
                     return@executes
                 }
                 val amount = typedArgs[1] as Int
-                val wallet = plugin.walletManager.getWallet(p)
-                wallet.set(amount)
-                sender.sendMessage(text("残高を${amount}に設定しました"))
-                p.sendMessage(text("残高が${amount}に設定されました"))
+
+                playerList.forEach { p ->
+                    val wallet = plugin.walletManager.getWallet(p)
+                    wallet.set(amount)
+                    p.sendMessage(text("残高が${amount}に設定されました"))
+                }
+                sender.sendMessage(text("${playerList.size}人の残高を${amount}に設定しました"))
             }
         }
     }

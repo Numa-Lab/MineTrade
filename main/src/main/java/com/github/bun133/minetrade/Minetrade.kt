@@ -56,6 +56,9 @@ class Minetrade : JavaPlugin() {
     }
 
     fun init() {
+        if (market != null) {
+            market!!.markAsDisabled()   // Disable Market
+        }
         market = Market(config, this)
         scoreBoardManager.resetScoreBoard()
         bossBarManager.enable()

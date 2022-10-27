@@ -29,9 +29,9 @@ class MarketEntry(
     private var sellCount = 0
     private val rate = MarketPriceHelper(DoubleRange(0.5, 1.5), plugin)
 
+    // TODO 前のゲームの値段が残っているので、リセットする必要がある
     fun buyPrice(): Int {
         return (baseValue.value() * rate.nowValue()).toInt()
-
     }
 
     fun sellPrice(): Int {

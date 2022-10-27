@@ -60,7 +60,7 @@ class TraderEventHelper(val plugin: Minetrade) : Listener {
         }
 
         private fun getMarket(villager: Villager): Market? {
-            return markets[villager]
+            return markets[villager]?.takeIf { it.isEnabled }   // If Market is Disabled, return null
         }
     }
 

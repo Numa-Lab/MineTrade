@@ -10,7 +10,7 @@ import kotlin.random.Random
  * @param range is the range of price change rate.
  */
 class MarketPriceHelper(var range: DoubleRange, plugin: JavaPlugin) {
-    private var value = random()
+    private var value: Double = random()
 
     init {
         MarketPriceHelperTimer.getInstance(plugin).add(this)
@@ -43,12 +43,14 @@ class MarketPriceHelperTimer private constructor(plugin: JavaPlugin) {
     init {
         Bukkit.getScheduler().runTaskTimer(plugin, Runnable {
             update()
-        }, INTERVAL_TICK, INTERVAL_TICK)
+        }, 0, INTERVAL_TICK)
     }
 
     private val helpers = mutableListOf<MarketPriceHelper>()
+    private var lastUpdateTime = 0
 
     private fun update() {
+        lastUpdateTime = Bukkit.getServer().currentTick
         helpers.forEach { it.update() }
     }
 
@@ -58,6 +60,6 @@ class MarketPriceHelperTimer private constructor(plugin: JavaPlugin) {
 
     fun remainTick(): Long {
         if (helpers.isEmpty()) return INTERVAL_TICK
-        return INTERVAL_TICK - (Bukkit.getServer().currentTick % INTERVAL_TICK)
+        return (lastUpdateTime + INTERVAL_TICK - Bukkit.getServer().currentTick) % INTERVAL_TICK
     }
 }

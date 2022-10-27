@@ -11,6 +11,14 @@ class Market(private val conf: MineTradeConfig, val plugin: Minetrade) {
     private fun configEntries() = conf.tradings
     fun entries() = map.values
 
+    var isEnabled = true
+        private set
+
+    fun markAsDisabled() {
+        isEnabled = false
+    }
+
+
     init {
         // Init All Trading Entries
         configEntries().forEach {
