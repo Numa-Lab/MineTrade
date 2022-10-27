@@ -31,13 +31,12 @@ fun spawnTraderAtLocation(location: Location, market: Market, plugin: Plugin, na
     val villager: Villager = location.world.spawnEntity(location, org.bukkit.entity.EntityType.VILLAGER) as Villager
     villager.setAI(false)
     villager.isSilent = true
-    villager.isCollidable = false
     villager.canPickupItems = false
-    villager.isInvulnerable = true  // クリエイティブモードのみで殺せるようにする
     villager.setAdult()
     villager.profession = Villager.Profession.NONE
     villager.villagerType = Villager.Type.PLAINS
     villager.customName(text(name))
+    villager.health = 1.0 // ワンパンで倒せるように
 
     villager.setMetadata(TraderMeta.KEY, TraderMeta(plugin))    // Mark as Trader
 
